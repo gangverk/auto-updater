@@ -219,11 +219,13 @@ var commands = {
     var self = this,
       jsoninfo = this.jsons.client['auto-updater'];
 
+    // The path parameter passed to the remote downloader has been
+    // changed to reference a file with the name of the update, e.g.
+    // `update-0.2.0`. Previously, this path was referencing a zip of
+    // a git repo.
     remoteDownloadUpdate.call(this, this.updateName, {
         host: this.attrs.contenthost,
-        path: '/' + path.join(jsoninfo.repo,
-          'zip',
-          jsoninfo.branch)
+        path: '/' + path.join(jsoninfo.repo, this.updateName)
       })
       .then(function(existed) {
         if (existed === true)
